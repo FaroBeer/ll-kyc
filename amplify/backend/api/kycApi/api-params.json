@@ -1,0 +1,54 @@
+{
+    "paths": [
+        {
+            "name": "/users",
+            "lambdaFunction": "kycUsersLambda",
+            "privacy": {
+                "private": true,
+                "auth": "rw"
+            }
+        },
+        {
+            "name": "/items",
+            "lambdaFunction": "kycItemsLambda",
+            "privacy": {
+                "private": true,
+                "auth": "rw"
+            }
+        }
+    ],
+    "resourceName": "kycApi",
+    "apiName": "kycApi",
+    "functionArns": [
+        {
+            "lambdaFunction": "kycUsersLambda"
+        },
+        {
+            "lambdaFunction": "kycItemsLambda"
+        }
+    ],
+    "privacy": {
+        "auth": 2,
+        "unauth": 0,
+        "authRoleName": "ll-kyc-20181228112820-authRole",
+        "unAuthRoleName": "ll-kyc-20181228112820-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "kycUsersLambda",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        },
+        {
+            "category": "function",
+            "resourceName": "kycItemsLambda",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

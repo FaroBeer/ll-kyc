@@ -1,0 +1,19 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "ll-kyc-20181228112820-authRole",
+            "UnauthRoleArn": "arn:aws:iam::804165849592:role/ll-kyc-20181228112820-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::804165849592:role/ll-kyc-20181228112820-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "ll-kyc-20181228112820-deployment",
+            "UnauthRoleName": "ll-kyc-20181228112820-unauthRole",
+            "StackName": "ll-kyc-20181228112820",
+            "StackId": "arn:aws:cloudformation:us-west-2:804165849592:stack/ll-kyc-20181228112820/4bea29c0-0a8b-11e9-a899-061dee6f5b3e"
+        },
+        "categories": {
+            "auth": {
+                "kycLL": {}
+            }
+        }
+    }
+}

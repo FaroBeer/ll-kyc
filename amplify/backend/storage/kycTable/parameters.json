@@ -1,0 +1,5 @@
+{
+    "tableName": "kycTable",
+    "partitionKeyName": "email",
+    "partitionKeyType": "S"
+}
