@@ -4,7 +4,7 @@ import Content from '../shared/components/layout/Content';
 import Footer from '../shared/components/layout/Footer';
 import './App.css';
 import aws_exports from '../aws-exports';
-import { withAuthenticator } from 'aws-amplify-react';
+//import { withAuthenticator } from 'aws-amplify-react';
 import Amplify, { Auth, API } from 'aws-amplify';
 
 Amplify.configure(aws_exports);
@@ -17,6 +17,7 @@ class App extends React.Component {
       approved:false,
       step1:false,
       step2:false,
+      step3:false,
       email:'',
       firstName:'',
       middleName:'',
@@ -31,11 +32,13 @@ class App extends React.Component {
       dateBirth:'',
       accreditedInvestor: false,
       amount:'',
+      activeStep:'0'
     }
   }
+  
 
   getUser = async () => {
-    const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
+    const response = await API.get('kycApi', '/items/users/' + this.state.email);
     //if(response) console.log (JSON.stringify(response));
 
     //check if registered
@@ -82,7 +85,7 @@ class App extends React.Component {
       this.getUser();
     }
 
-    if (this.props.authState == "signedIn") {
+    if (this.props.authState === "signedIn") {
       return (
         
         <div className="App">

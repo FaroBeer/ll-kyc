@@ -22,6 +22,7 @@ import './FileUpload.css'
 import { Auth, API } from 'aws-amplify';
 import { FormControl, InputLabel } from "@material-ui/core";
 import Background from '../../shared/images/bg_kyc/14122018-02.JPG';
+import CustomStepper from '../../shared/components/customStepper'
 
 const styles = theme => ({
   root: {
@@ -89,6 +90,10 @@ const styles = theme => ({
 });
 
 class TextFields extends Component {
+  constructor(props) {
+    super (props);
+    this.handleNextStep = this.handleNextStep.bind(this);
+  }
 
   _handleSubmit(e) {
     e.preventDefault();
@@ -133,9 +138,35 @@ class TextFields extends Component {
     this.setState({ buttonIsHovered: value});
   };
 
+  handleNextStep = () => {
+    switch (this.state.activeStep) {
+      case 0:
+        this.state.step1 ? this.setState (state => ({
+          activeStep: state.activeStep + 1
+        })) : alert('Step1 not completed')
+        break;
+      case 1:
+      this.state.step2 ? this.setState (state => ({
+        activeStep: state.activeStep + 1
+      })) : alert('Step2 not completed')
+        break;
+      case 2:
+      this.state.step3 ? this.setState(state => ({
+        activeStep: state.activeStep + 1
+      })) : alert('Step3 not completed')
+        break;
+    }
+  };
+
+  handleBackStep = () => {
+    this.setState(state => ({
+      activeStep: state.activeStep - 1,
+    }));
+  };
+
   
-post = async () => {
-    console.log('calling api');
+  post = async () => {
+    console.log('calling kycApi');
 
     if(this.state.firstName==='' || this.state.surname==='' || 
         this.state.address==='' || this.state.city==='' || this.state.zipCode==='' || this.state.regionState==='' || 
@@ -148,7 +179,7 @@ post = async () => {
     } else {
 
       let middleName = this.state.middleName !== '' ? this.state.middleName : null;
-      const response = await API.post('preKYCapi', '/items', {
+      const response = await API.post('kycApi', '/items', {
         body: {
           registrationDate: new Date(),
           step1:true,
@@ -174,31 +205,10 @@ post = async () => {
   }
 }
 
-  /*get = async () => {
-    console.log('calling api');
-    const response = await API.get('preKYCapi', '/items/object/1');
-    alert(JSON.stringify(response, null, 2));
-    return response;
-  }
-  list = async () => {
-    console.log('calling api');
-    const response = await API.get('preKYCapi', '/items/1');
-    alert(JSON.stringify(response, null, 2));
-  }
-  user = async () => {
-    console.log('calling api');
-    const response = Auth.currentAuthenticatedUser();
-    alert(JSON.stringify(response, null, 2));
-  }*/
   getUser = async () => {
-    const response = await API.get('preKYCapi', '/items/object/' + this.state.email);
-    //if(response) console.log (JSON.stringify(response));
+    const response = await API.get('kycApi', '/items/users/' + this.state.email);
 
-    //if(response.step1 === true && response.step2 === true) window.location.href='/';
-    //else 
-      if(response.step1 === true) window.location.href='/';
-    
-
+      if(response.step1 === true) window.location.href='/'; 
     } 
 
   render() {
@@ -225,6 +235,7 @@ post = async () => {
             <Card className={classes.card}>
               <CardContent>
                 <Filter1 /><h2>Personal Details</h2>
+                <CustomStepper handleNextStep={this.handleNextStep} handleBackStep={this.handleBackStep} /> {console.log('stepper: '+ JSON.stringify(CustomStepper.state))}
                 <form
                   className={classes.container}
                   noValidate
