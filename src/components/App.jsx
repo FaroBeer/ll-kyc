@@ -39,21 +39,31 @@ class App extends React.Component {
 
   getUser = async () => {
     const response = await API.get('kycApi', '/items/users/' + this.state.email);
+    console.log(response)
     //if(response) console.log (JSON.stringify(response));
 
-    //check if registered
-    if(response.firstName && response.surname && this.state.firstName !== response.firstName && this.state.surname !== response.surname) { //enough to say step1 done
-      this.setState({    // we don't need to set all the state!!      
-        step1:true,
-        firstName:response.firstName,
-        middleName:response.middleName,
-        surname:response.surname,
-        countryCitizenship:response.countryCitizenship,
-        countryResidence:response.countryResidence,
-        accreditedInvestor:response.accreditedInvestor,
-        amount:response.amount,
-      });
-    }
+    this.setState({
+      registered:response.registered,
+      approved:response.approved,
+      step1:response.step1,
+      step2:response.step2,
+      step3:response.step3,
+      email:response.email,
+      firstName:response.firstName,
+      middleName:response.middleName,
+      surname:response.surname,
+      address:response.address,
+      city:response.city,
+      zipCode:response.zipCode,
+      regionState:response.regionState,
+      occupation:response.occupation,
+      countryCitizenship:response.countryCitizenship,
+      countryResidence:response.countryResidence,
+      dateBirth:response.dateBirth,
+      accreditedInvestor:response.accreditedInvestor,
+      amount:response.amount,
+      activeStep:response.activeStep
+    })
 
     /*if(response.amount && response.amount !== this.state.amount) { //enough to say step2 done
       this.setState({    // we don't need to set all the state!!      
@@ -66,14 +76,13 @@ class App extends React.Component {
   
 
   render() {
-    
+
+
     if( this.state.email === ''){
       
       Auth.currentAuthenticatedUser({
         bypassCache: false
       }).then(user => {
-        
-        if(this.state.email !== user.attributes.email)
           this.setState({
             email: user.attributes.email
           });
@@ -91,7 +100,7 @@ class App extends React.Component {
         <div className="App">
           <Header userState={this.state} />
 
-          <Content children={this.props.children} />
+          <Content children={this.props.children} userState={this.state} />
             
           <Footer  userState={this.state} />
         </div>
